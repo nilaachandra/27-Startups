@@ -4,7 +4,7 @@ const Hero = () => {
   return (
     <div className="w-full flex-col flex justify-center">
       <h1
-        className={`headfont-bold lg:text-5xl text-3xl mb-3 text-center leading-[2rem] lg:leading-[3.4rem]`}
+        className={`headfont-bold lg:text-5xl text-3xl mb-4 font-bold text-center leading-[2rem] lg:leading-[3.4rem]`}
       >
         Top 27{" "}
         <span className="text-light-button group">
@@ -42,7 +42,7 @@ const Hero = () => {
         .
       </h1>
       <p
-        className={`text-center text-[0.8rem] lg:text-[1.4rem] headfont-regular leading-5 lg:leading-8`}
+        className={`text-center text-[1rem] lg:text-[1.4rem] headfont-regular leading-5 lg:leading-8`}
       >
         <span className="group font-bold">
           Unicorn
