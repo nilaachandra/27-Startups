@@ -20,7 +20,12 @@ const Hero = () => {
             📱
           </span>
         </span>
-        ideas chosen by{" "}
+        <span className="text-light-button group">
+          Ideas
+          <span className="inline-block group-hover:scale-125 transform transition-transform duration-200 rotate-[30deg]">
+            💡
+          </span>
+        </span>chosen by{" "}
         <span className="text-light-button group">
           You
           <span className="inline-block group-hover:scale-125 transform transition-transform duration-200">
@@ -73,7 +78,8 @@ const Hero = () => {
             ✍️
           </span>
         </span>{" "}
-        Your Own!<br/>
+        Your Own!
+        <br />
         <span className="font-semibold">No Account Needed!</span>
       </p>
     </div>
