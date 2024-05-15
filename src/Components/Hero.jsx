@@ -49,13 +49,6 @@ const Hero = () => {
             🦄
           </span>
         </span>
-        ,{" "}
-        <span className="group font-bold">
-          Coffin
-          <span className="inline-block group-hover:scale-150 transform transition-transform duration-200">
-            ⚰️
-          </span>
-        </span>{" "}
         &{" "}
         <span className="group font-bold">
           Comment
