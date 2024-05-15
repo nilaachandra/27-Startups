@@ -38,8 +38,7 @@ const Hero = () => {
           <span className="inline-block group-hover:scale-125 transform transition-transform duration-200">
             🌎
           </span>
-        </span>
-        .
+        </span>.
       </h1>
       <p
         className={`text-center text-[1rem] lg:text-[1.4rem] headfont-regular leading-5 lg:leading-8`}
@@ -71,8 +70,7 @@ const Hero = () => {
             ✨
           </span>
         </span>
-        <br/>
-        . Or{" "}
+        <br/>Or{" "}
         <span className="group underline text-light-button font-bold ">
           Write
           <span className="inline-block group-hover:scale-150 transform transition-transform duration-200">
