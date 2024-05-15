@@ -4,7 +4,7 @@ const Hero = () => {
   return (
     <div className="w-full flex-col flex justify-center">
       <h1
-        className={`headfont-bold lg:text-5xl text-3xl mb-4 font-bold text-center leading-[2rem] lg:leading-[3.4rem]`}
+        className={`headfont-bold lg:text-5xl text-4xl mb-4 font-bold text-center leading-[2.4rem] lg:leading-[3.6rem]`}
       >
         Top 27{" "}
         <span className="text-light-button group">
@@ -48,7 +48,7 @@ const Hero = () => {
           <span className="inline-block group-hover:scale-150 transform transition-transform duration-200">
             🦄
           </span>
-        </span>
+        </span>{" "}
         &{" "}
         <span className="group font-bold">
           Comment
