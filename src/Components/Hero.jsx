@@ -31,7 +31,7 @@ const Hero = () => {
           <span className="inline-block group-hover:scale-125 transform transition-transform duration-200">
             🫵
           </span>
-        </span>{" "}
+        </span>
         &{" "}
         <span className="text-light-button group">
           Internet
@@ -42,7 +42,7 @@ const Hero = () => {
         .
       </h1>
       <p
-        className={`text-center text-[1rem] lg:text-[1.4rem] headfont-regular leading-5 lg:leading-8`}
+        className={`text-center text-[0.8rem] lg:text-[1.4rem] headfont-regular leading-5 lg:leading-8`}
       >
         <span className="group font-bold">
           Unicorn
@@ -71,6 +71,7 @@ const Hero = () => {
             ✨
           </span>
         </span>
+        <br/>
         . Or{" "}
         <span className="group underline text-light-button font-bold ">
           Write
@@ -78,9 +79,7 @@ const Hero = () => {
             ✍️
           </span>
         </span>{" "}
-        Your Own!
-        <br />
-        <span className="font-semibold">No Account Needed!</span>
+        Your Own! <span className="font-semibold">No Account Needed!</span>
       </p>
     </div>
   );
