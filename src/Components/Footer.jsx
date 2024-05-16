@@ -16,7 +16,7 @@ const Footer = () => {
             <li>🔝Top 27 Startups</li>
           </ul>
       </div>
-      <div className="links w-[48%] lg:w-[30%] lg:text-center ">
+      <div className="links w-[46%] lg:w-[30%] lg:text-center ">
       <h1 className='font-bold lg:text-xl text-lg mb-2'>👋Engage</h1>
           <ul className='flex flex-col gap-1'>
             <li>✏️Add an Idea?</li>
