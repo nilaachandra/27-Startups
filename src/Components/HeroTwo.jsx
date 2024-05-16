@@ -8,7 +8,7 @@ const HeroTwo = () => {
       </h1>
       <p className="text-base lg:text-xl">
         Oh, sure, You know the internet is the best place to find the top
-        startup🚀 ideas. So I made 27StartUps, where anyone can throw in their
+        startup🚀 ideas. So I'm making 27StartUps, where anyone can throw in their
         two cents without even needing an account. Just <span className="text-light-button underline">post</span>✍️ your revolutionary
         startup idea that you probably dreamt of while you were taking a poop💩 in the bathroom
         🚽 and let the online hive mind upvote the best ones that could be the
