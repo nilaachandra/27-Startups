@@ -3,6 +3,7 @@ import { FaFacebookSquare } from "react-icons/fa";
 import { FaSquareXTwitter } from "react-icons/fa6";
 import { FaInstagramSquare } from "react-icons/fa";
 import { FaSquareGithub } from "react-icons/fa6";
+import { Link } from 'react-router-dom';
 // grid lg:grid-cols-3 grid-cols-2
 const Footer = () => {
   return (
@@ -11,15 +12,15 @@ const Footer = () => {
       <div className="links w-[48%] lg:w-[30%] flex flex-col">
           <h1 className='font-bold lg:text-xl text-lg mb-2'>🕵Discover</h1>
           <ul className='flex flex-col gap-1'>
-            <li>🔥Hot Startup Ideas</li>
-            <li>🆕New Startup Ideas</li>
-            <li>🔝Top 27 Startups</li>
+            <li><Link to='/#hot'>🔥Hot Startup Ideas</Link></li>
+            <li><Link to='/#new'>🆕New Startup Ideas</Link></li>
+            <li><Link to='/#top'>🔝Top 27 Startups</Link></li>
           </ul>
       </div>
       <div className="links w-[46%] lg:w-[30%] lg:text-center ">
       <h1 className='font-bold lg:text-xl text-lg mb-2'>👋Engage</h1>
           <ul className='flex flex-col gap-1'>
-            <li>✏️Add an Idea?</li>
+            <li><Link to='/add-an-idea'>✏️Add an Idea?</Link></li>
             <li>📝Send Feedback</li>
             <li>🤝Contribute</li>
           </ul>
