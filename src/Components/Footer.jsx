@@ -21,16 +21,16 @@ const Footer = () => {
       <h1 className='font-bold lg:text-xl text-lg mb-2'>👋Engage</h1>
           <ul className='flex flex-col gap-1'>
             <li><Link to='/add-an-idea'>✏️Add an Idea?</Link></li>
-            <li>📝Send Feedback</li>
-            <li>🤝Contribute</li>
+            <li><Link to='/add-an-idea'>📝Send Feedback</Link></li>
+            <li><Link to='/add-an-idea'>🤝Contribute</Link></li>
           </ul>
       </div>
       <div className="links w-[48%] lg:w-[30%] text-right">
       <h1 className='font-bold lg:text-xl text-lg mb-2 lg:text-right text-left'>📨Contact Us</h1>
           <ul className='flex flex-col gap-1'>
-            <li className='flex  gap-2 items-center justify-items-start lg:justify-end'>Facebook<FaFacebookSquare/> </li>
-            <li className='flex gap-2 items-center justify-items-start lg:justify-end'>Twitter<FaSquareXTwitter/></li>
-            <li className='flex gap-2 items-center justify-items-start lg:justify-end'>Github<FaSquareGithub/></li>
+            <li className=''><a className='flex gap-2 items-center justify-items-start lg:justify-end' href=''>Facebook<FaFacebookSquare/> </a></li>
+            <li className=''><a className='flex gap-2 items-center justify-items-start lg:justify-end' href='https://x.com/nilaacodes' target='_blank'>Twitter<FaSquareXTwitter/></a></li>
+            <li className=''><a className='flex gap-2 items-center justify-items-start lg:justify-end' href='https://github.com/nilaachandra' target='_blank'>Github<FaSquareGithub/></a></li>
           </ul>
       </div>
       </div>
