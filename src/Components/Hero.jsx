@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+
+
 const Hero = () => {
   return (
     <div className="w-full flex-col flex justify-center">

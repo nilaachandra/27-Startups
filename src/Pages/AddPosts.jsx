@@ -1,11 +1,11 @@
 import React from "react";
 import { RiErrorWarningFill } from "react-icons/ri";
 import { FaAt } from "react-icons/fa";
-import { FaFacebookSquare } from "react-icons/fa";
 import { FaSquareXTwitter } from "react-icons/fa6";
 import { FaInstagramSquare } from "react-icons/fa";
 import { FaSquareGithub } from "react-icons/fa6";
-
+import Button from '../Components/Button'
+import { Link } from "react-router-dom";
 const AddPosts = () => {
   return (
     <div className="w-full mb-4 lg:p-2 p-1 headfont-regular flex flex-col gap-4">
@@ -13,7 +13,7 @@ const AddPosts = () => {
         Add Your potential Unicorn Product/Startup Idea!
       </h1>
       <label htmlFor="" className="flex flex-col gap-2">
-        <span className="text-lg text-light-text">Your Idea💡</span>
+        <span className="lg:text-lg text-sm text-light-text">Your Idea💡</span>
         <textarea
           name=""
           id=""
@@ -24,8 +24,8 @@ const AddPosts = () => {
       </label>
       <label htmlFor="" className="flex flex-col gap-2">
         <div className="flex justify-between items-center">
-          <span className="text-lg text-light-text">Your Username👨🏻‍💼</span>
-          <span className="text-lg text-light-text flex items-center gap-1">
+          <span className="lg:text-lg text-sm text-light-text">Your Username👨🏻‍💼</span>
+          <span className="lg:text-lg text-sm text-light-text flex items-center gap-1">
             <RiErrorWarningFill />
             No Account Needed!
           </span>
@@ -39,7 +39,7 @@ const AddPosts = () => {
       </label>
 
       <label htmlFor="" className="flex flex-col w-full gap-2">
-        <span className="text-lg text-light-text">
+        <span className="lg:text-lg text-sm text-light-text">
           {" "}
           Show off Your Socials🤳🏽
         </span>
@@ -71,6 +71,7 @@ const AddPosts = () => {
           </select>
         </div>
       </label>
+      <Button className='group py-3 flex gap-3 items-center text-lg'><span>Post</span><span className="inline-block group-hover:scale-150 transition-all duration-200">➤</span></Button>
     </div>
   );
 };
