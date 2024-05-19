@@ -93,7 +93,9 @@ const AddPosts = () => {
             type="text"
             id="username"
             value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) =>
+              setUsername(e.target.value.toLowerCase().replace(/\s/g, ""))
+            }
             className="rounded-md p-3 border border-light-text"
             required
           />
@@ -112,7 +114,7 @@ const AddPosts = () => {
                 type="text"
                 id="social"
                 value={socialHandle}
-                onChange={(e) => setSocialHandle(e.target.value)}
+                onChange={(e) => setSocialHandle(e.target.value.toLowerCase().replace(/\s/g, ""))}
                 className="rounded-r-md p-3 w-full border border-zinc-400"
                 placeholder="Your social media handle..."
               />
@@ -137,12 +139,7 @@ const AddPosts = () => {
         >
           {isPosting ? (
             <span className="flex items-center gap-3">
-              <Loader
-              type='spin'
-                color="#ffffff"
-                height={25}
-                width={25}
-              />
+              <Loader type="spin" color="#ffffff" height={25} width={25} />
               Posting
             </span>
           ) : (
@@ -154,7 +151,7 @@ const AddPosts = () => {
         </Button>
       </form>
       {error && <p className="text-red-500">{error}</p>}
-      <Toaster richColors position="top-center" duration={2500}/>
+      <Toaster richColors position="top-center" duration={2500} />
     </div>
   );
 };
