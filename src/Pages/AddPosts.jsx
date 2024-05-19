@@ -154,7 +154,7 @@ const AddPosts = () => {
         </Button>
       </form>
       {error && <p className="text-red-500">{error}</p>}
-      <Toaster richColors position="top-center"/>
+      <Toaster richColors position="top-center" duration={2500}/>
     </div>
   );
 };
