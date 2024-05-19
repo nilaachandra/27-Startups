@@ -64,7 +64,7 @@ const AddPosts = () => {
       <h1 className="text-base lg:text-3xl mb-4 headfont-bold">
         Add Your potential Unicorn Product/Startup Idea!
       </h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <label htmlFor="description" className="flex flex-col gap-2">
           <span className="lg:text-lg text-sm text-light-text">
             Your Idea💡
@@ -132,7 +132,7 @@ const AddPosts = () => {
 
         <Button
           type="submit"
-          className="group py-3 w-full mt-4 flex gap-3 items-center justify-center text-lg"
+          className="group py-3 w-full flex gap-3 items-center justify-center text-lg"
           disabled={isPosting}
         >
           {isPosting ? (
