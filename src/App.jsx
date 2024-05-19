@@ -3,6 +3,7 @@ import './App.css'
 import Layout from './Layout'
 import Homepage from './Pages/Homepage'
 import AddPosts from './Pages/AddPosts'
+import { SupaProvider } from './contexts/SupaContext'
 
 const App = () => {
   const router = createBrowserRouter([
@@ -21,7 +22,9 @@ const App = () => {
     }
   ])
   return (
-    <RouterProvider router={router}/>
+    <SupaProvider>
+      <RouterProvider router={router}/>
+    </SupaProvider>
   )
 }
 
