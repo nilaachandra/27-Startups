@@ -15,7 +15,7 @@ const Tabs = () => {
     if (["hot", "new", "top"].includes(hash)) {
       setActiveTab(hash);
     }
-    window.scrollTo(0,350)
+
   }, [location.hash]);
 
   return (

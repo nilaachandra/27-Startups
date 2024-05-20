@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 
 const Newposts = () => {
   return (
-<div className='w-h-[50vh] pt-4 headfont-regular flex gap-3 items-center flex-col' id='#hot'>
+<div className='w-h-[50vh] pt-4 headfont-regular flex gap-3 items-center flex-col' id='new'>
         {dummyPosts.map((post, index) => (
             <PostCard key={index} desc={post.desc} username={post.username} social_username={post.social_username}
             upvotes={post.upvotes} commentCount={post.commentCount} createdAt={post.created_at}/>
