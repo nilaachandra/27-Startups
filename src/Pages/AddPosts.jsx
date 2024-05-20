@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RiErrorWarningFill } from "react-icons/ri";
 import { FaAt } from "react-icons/fa";
 import Button from "../Components/Button";
@@ -58,7 +58,9 @@ const AddPosts = () => {
       toast.success("Startup Idea posted successfully!🚀");
     }, 1500);
   };
-
+  useEffect(()=>{
+    window.scrollTo(0, 0);
+  },[])
   return (
     <div className="w-full mb-4 lg:p-2 p-1 headfont-regular flex flex-col gap-4">
       <h1 className="text-base lg:text-3xl mb-4 headfont-bold">

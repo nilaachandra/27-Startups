@@ -6,6 +6,7 @@ import { FaPlus } from "react-icons/fa6";
 import { Link } from 'react-router-dom'
 
 const Topposts = () => {
+    
   return (
 <div className='w-h-[50vh] pt-4 headfont-regular flex gap-3 items-center flex-col' id='#hot'>
         {dummyPosts.map((post, index) => (

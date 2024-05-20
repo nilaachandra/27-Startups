@@ -15,11 +15,12 @@ const Tabs = () => {
     if (["hot", "new", "top"].includes(hash)) {
       setActiveTab(hash);
     }
+    window.scrollTo(0,350)
   }, [location.hash]);
 
   return (
-    <div className="w-full mt-4 min-h-screen">
-      <div className="tab w-full flex justify-around items-center border-b-4 border-zinc-300 pb-3">
+    <div className="w-full mt-4 min-h-screen ">
+      <div className="tab w-full sticky top-1  bg-light-bg mt-2 flex justify-around items-center border-b-4 border-zinc-300 pb-3">
         <Link
           to="#hot"
           onClick={() => setActiveTab("hot")}

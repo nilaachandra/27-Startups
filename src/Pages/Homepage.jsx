@@ -4,11 +4,12 @@ import HeroTwo from '../Components/HeroTwo'
 import Tabs from '../Components/Tabs'
 
 const Homepage = () => {
+  
   return (
     <div className='w-full'>
       <Hero/>
-      <HeroTwo/>
       <Tabs/>
+      <HeroTwo/>
     </div>
   )
 }
