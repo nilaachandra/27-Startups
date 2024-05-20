@@ -15,15 +15,17 @@ const Tabs = () => {
     if (["hot", "new", "top"].includes(hash)) {
       setActiveTab(hash);
     }
-
   }, [location.hash]);
 
   return (
-    <div className="w-full mt-4 min-h-screen ">
+    <div className="w-full mt-8 min-h-screen ">
       <div className="tab w-full sticky top-1  bg-light-bg mt-2 flex justify-around items-center border-b-4 border-zinc-300 pb-3">
         <Link
           to="#hot"
-          onClick={() => setActiveTab("hot")}
+          onClick={() => {
+            setActiveTab("hot");
+            window.scrollTo(0, 350);
+          }}
           className={`flex items-center gap-1 font-bold headfont-bold lg:text-xl text-base py-2 px-4 ${
             activeTab === "hot" ? "bg-slate-300 rounded-md" : "opacity-50"
           }`}
@@ -33,7 +35,10 @@ const Tabs = () => {
         </Link>
         <Link
           to="#new"
-          onClick={() => setActiveTab("new")}
+          onClick={() => {
+            setActiveTab("new");
+            window.scrollTo(0, 350);
+          }}
           className={`flex items-center gap-1 font-bold headfont-bold lg:text-xl text-base py-2 px-4 ${
             activeTab === "new" ? "bg-slate-300 rounded-md" : "opacity-50"
           }`}
@@ -43,7 +48,10 @@ const Tabs = () => {
         </Link>
         <Link
           to="#top"
-          onClick={() => setActiveTab("top")}
+          onClick={() => {
+            setActiveTab("top");
+            window.scrollTo(0, 350);
+          }}
           className={`flex items-center gap-1 font-bold headfont-bold lg:text-xl text-base py-2 px-4 ${
             activeTab === "top" ? "bg-slate-300 rounded-md" : "opacity-50"
           }`}
