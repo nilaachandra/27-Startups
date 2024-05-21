@@ -5,9 +5,11 @@ import Button from "../Components/Button";
 import { useSupaContext } from "../contexts/SupaContext";
 import { Toaster, toast } from "sonner";
 import Loader from "../Components/Loader";
+import { useNavigate } from "react-router-dom";
 
 const AddPosts = () => {
-  const { postIdea, loading, error } = useSupaContext();
+  const navigate = useNavigate()
+  const { postIdea, loading, error, refetch } = useSupaContext();
   const [description, setDescription] = useState("");
   const [username, setUsername] = useState("");
   const [socialHandle, setSocialHandle] = useState("");
@@ -56,6 +58,10 @@ const AddPosts = () => {
       setIsPosting(false);
       // Show success toast
       toast.success("Startup Idea posted successfully!🚀");
+      refetch()
+      setTimeout( () => {
+        navigate('/')
+      },800)
     }, 1500);
   };
   useEffect(()=>{

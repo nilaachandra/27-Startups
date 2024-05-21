@@ -4,6 +4,7 @@ import Layout from './Layout'
 import Homepage from './Pages/Homepage'
 import AddPosts from './Pages/AddPosts'
 import { SupaProvider } from './contexts/SupaContext'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 const App = () => {
   const router = createBrowserRouter([
@@ -21,10 +22,13 @@ const App = () => {
       ]
     }
   ])
+  const queryClient = new QueryClient()
   return (
+    <QueryClientProvider client={queryClient}>
     <SupaProvider>
       <RouterProvider router={router}/>
     </SupaProvider>
+    </QueryClientProvider>
   )
 }
 

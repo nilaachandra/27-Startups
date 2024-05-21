@@ -1,15 +1,18 @@
-import React from 'react'
-import PostCard from './PostCard'
-import dummyPosts from '../dummydata'
-import Button from './Button'
+import React from "react";
+import PostCard from "./PostCard";
+import dummyPosts from "../dummydata";
+import Button from "./Button";
 import { FaPlus } from "react-icons/fa6";
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
+import Construction from "./Construction";
 
 const Topposts = () => {
-    
   return (
-<div className='w-h-[50vh] pt-4 headfont-regular flex gap-3 items-center flex-col' id='top'>
-        {dummyPosts.map((post, index) => (
+    <div
+      className="w-h-[50vh] pt-4 headfont-regular flex gap-3 items-center flex-col"
+      id="top"
+    >
+      {/* {dummyPosts.map((post, index) => (
             <PostCard key={index} desc={post.desc} username={post.username} social_username={post.social_username}
             upvotes={post.upvotes} commentCount={post.commentCount} createdAt={post.created_at}/>
         ))}
@@ -21,8 +24,10 @@ const Topposts = () => {
                 💡
               </span>
             </Button>
-            </Link>
-    </div>  )
-}
+            </Link> */}
+            <Construction/>
+    </div>
+  );
+};
 
-export default Topposts
+export default Topposts;

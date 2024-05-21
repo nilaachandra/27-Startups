@@ -5,6 +5,8 @@ import { FiTwitter } from "react-icons/fi";
 import { FaRegShareSquare } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { FiGithub, FiUser } from "react-icons/fi";
+import { formatDistanceToNow, parseISO } from 'date-fns';
+
 
 const PostCard = ({
   index,
@@ -23,6 +25,11 @@ const PostCard = ({
     e.stopPropagation();
   };
 
+  const formatDate = (dateString) => {
+    const date = parseISO(dateString);
+    return formatDistanceToNow(date, { addSuffix: true });
+  };
+  
   return (
     <Link
       to="/:post"
@@ -92,7 +99,7 @@ const PostCard = ({
               Share
             </span>
           </div>
-          <p>Posted at {createdAt || "2024-09-09"} </p>
+          <p>Posted at {formatDate(createdAt) || "2024-09-09"} </p>
         </div>
       </div>
       <div className="right flex leading-0 items-center text-lg flex-col lg:mr-4 mr-0">

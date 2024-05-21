@@ -1,12 +1,28 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Button from "./Button";
+import { FaPlus } from "react-icons/fa";
 
 const HeroTwo = () => {
   return (
-    <div className="w-full flex-col mt-4 flex justify-center headfont-regular">
-      <h1 className={`headfont-bold text-lg lg:text-2xl mt-4 mb-3 font-bold`}>
+    <div className="w-full flex-col mt-12 flex items-center justify-center headfont-regular">
+      <p className="text-center mb-4">
+        Looks like you've scrolled too much! Go back and work on your Startup 😡
+      </p>
+      <Link to="/add-an-idea" className="lg:w-1/2 w-full flex items-center justify-center mb-8">
+        <Button className="flex items-center gap-2 w-full group">
+          <FaPlus />
+          Add a Startup Idea
+          <span className="lg:group-hover:scale-[1.5] text-xl transition-all duration-200">
+            💡
+          </span>
+        </Button>
+      </Link>
+      <div className="w-full flex items-start justify-start">
+      <h1 className={`headfont-bold text-left text-lg lg:text-2xl mt-4 mb-3 font-bold`}>
         Tell me about <span className="text-light-button">27StartUps </span>, please🥺!
       </h1>
+      </div>
       <p className="text-base lg:text-xl">
         Oh, sure, You know the internet is the best place to find the top
         startup🚀 ideas. So I'm making 27StartUps, where anyone can throw in their

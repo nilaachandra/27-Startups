@@ -1,27 +1,40 @@
-import React from 'react'
-import PostCard from './PostCard'
-import dummyPosts from '../dummydata'
-import Button from './Button'
+import React from "react";
+import PostCard from "./PostCard";
+import dummyPosts from "../dummydata";
+import Button from "./Button";
 import { FaPlus } from "react-icons/fa6";
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
+import { useSupaContext } from "../contexts/SupaContext";
+import Loader from "./Loader";
 
 const Newposts = () => {
+  const { data, isLoading, onSuccess } = useSupaContext();
+  console.log(data);
   return (
-<div className='w-h-[50vh] pt-4 headfont-regular flex gap-3 items-center flex-col' id='new'>
-        {dummyPosts.map((post, index) => (
-            <PostCard key={index} desc={post.desc} username={post.username} social_username={post.social_username}
-            upvotes={post.upvotes} commentCount={post.commentCount} createdAt={post.created_at}/>
-        ))}
-        <p className='text-center'>Looks Like you scrolled too much! Go back and work on your Startup 😡</p>
-            <Link to='/add-an-idea' className='lg:w-1/2 w-full'>
-            <Button className="flex items-center gap-2 w-full group">
-            <FaPlus/>Add a Startup Idea
-              <span className="lg:group-hover:scale-[1.5] text-xl transition-all duration-200">
-                💡
-              </span>
-            </Button>
-            </Link>
-    </div>  )
-}
+    <div
+      className="w-h-[50vh] pt-4 headfont-regular flex gap-3 justify-center items-center flex-col"
+      id="hot"
+    >
+      {isLoading ? (
+        <Loader type="spin" color="#09a129" height={50} width={50} />
+      ) : (
+        data?.map((post, index) => (
+          <PostCard
+            key={index}
+            desc={post.description}
+            username={post.username}
+            social_username={post.social_username}
+            upvotes={post.upvotes}
+            commentCount={post.commentCount}
+            createdAt={post.created_at}
+            twitter={post.twitter}
+            github={post.github}
+            instagram={post.instagram}
+          />
+        ))
+      )}
+    </div>
+  );
+};
 
-export default Newposts
+export default Newposts;

@@ -8,7 +8,7 @@ import Topposts from "./Topposts";
 
 const Tabs = () => {
   const location = useLocation();
-  const [activeTab, setActiveTab] = useState("hot");
+  const [activeTab, setActiveTab] = useState("new");
 
   useEffect(() => {
     const hash = location.hash.substring(1); // Remove the '#' from the hash
@@ -18,7 +18,7 @@ const Tabs = () => {
   }, [location.hash]);
 
   return (
-    <div className="w-full mt-8 min-h-screen ">
+    <div className="w-full mt-8 min-h-[50vh]">
       <div className="tab w-full sticky top-0  bg-light-bg mt-2 flex justify-around items-center border-b-4 border-zinc-300 py-3">
         <Link
           to="#hot"

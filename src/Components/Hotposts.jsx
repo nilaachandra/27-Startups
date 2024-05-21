@@ -4,11 +4,12 @@ import dummyPosts from '../dummydata'
 import Button from './Button'
 import { FaPlus } from "react-icons/fa6";
 import { Link } from 'react-router-dom'
+import Construction from './Construction';
 const Hotposts = () => {
     
   return (
-    <div className='w-h-[50vh] pt-4 headfont-regular flex gap-3 items-center flex-col' id='hot'>
-        {dummyPosts.map((post, index) => (
+    <div className='w-full min-h-[20vh] pt-4 headfont-regular flex gap-3 items-center flex-col' id='hot'>
+        {/* {dummyPosts.map((post, index) => (
             <PostCard key={index} desc={post.desc} username={post.username} social_username={post.social_username}
             upvotes={post.upvotes} commentCount={post.commentCount} createdAt={post.created_at} twitter={post.twitter} github={post.github}
             instagram={post.instagram}/>
@@ -21,7 +22,8 @@ const Hotposts = () => {
                 💡
               </span>
             </Button>
-            </Link>
+            </Link> */}
+            <Construction/>
     </div>
   )
 }
