@@ -12,9 +12,9 @@ const Footer = () => {
       <div className="links w-[48%] lg:w-[30%] flex flex-col">
           <h1 className='font-bold lg:text-xl text-lg mb-2'>🕵Discover</h1>
           <ul className='flex flex-col gap-1'>
-            <li><Link to='/#hot'>🔥Hot Startup Ideas</Link></li>
-            <li><Link to='/#new'>🆕New Startup Ideas</Link></li>
-            <li><Link to='/#top'>🔝Top 27 Startups</Link></li>
+            <li><Link to='#hot'>🔥Hot Startup Ideas</Link></li>
+            <li><Link to='#new'>🆕New Startup Ideas</Link></li>
+            <li><Link to='#top'>🔝Top 27 Startups</Link></li>
           </ul>
       </div>
       <div className="links w-[46%] lg:w-[30%] lg:text-center ">
