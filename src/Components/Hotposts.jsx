@@ -10,7 +10,8 @@ const Hotposts = () => {
     <div className='w-h-[50vh] pt-4 headfont-regular flex gap-3 items-center flex-col' id='hot'>
         {dummyPosts.map((post, index) => (
             <PostCard key={index} desc={post.desc} username={post.username} social_username={post.social_username}
-            upvotes={post.upvotes} commentCount={post.commentCount} createdAt={post.created_at}/>
+            upvotes={post.upvotes} commentCount={post.commentCount} createdAt={post.created_at} twitter={post.twitter} github={post.github}
+            instagram={post.instagram}/>
         ))}
         <p className='text-center'>Looks Like you scrolled too much! Go back and work on your Startup 😡</p>
             <Link to='/add-an-idea' className='lg:w-1/2 w-full'>
