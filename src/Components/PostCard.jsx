@@ -49,7 +49,7 @@ const PostCard = ({
                 onClick={handleSocialLinkClick}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:underline hover:text-dark-button border-r flex items-center gap-1"
+                className="hover:underline hover:text-dark-button flex items-center gap-1"
               >
                 <FiTwitter />
                 {social_username}
@@ -61,7 +61,7 @@ const PostCard = ({
                 onClick={handleSocialLinkClick}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:underline hover:text-dark-button border-r flex items-center gap-1"
+                className="hover:underline hover:text-dark-button flex items-center gap-1"
               >
                 <FiGithub />
                 {social_username}
@@ -73,7 +73,7 @@ const PostCard = ({
                 onClick={handleSocialLinkClick}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:underline hover:text-dark-button border-r flex items-center gap-1"
+                className="hover:underline hover:text-dark-button flex items-center gap-1"
               >
                 <FaInstagram />
                 {social_username}
@@ -83,7 +83,7 @@ const PostCard = ({
               <a
                 href="#"
                 onClick={handleSocialLinkClick}
-                className="hover:underline hover:text-dark-button border-r flex items-center gap-1"
+                className="hover:underline hover:text-dark-button flex items-center gap-1"
               >
                 <FiUser />
                 {username}
