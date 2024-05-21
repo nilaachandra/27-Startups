@@ -24,7 +24,7 @@ const Tabs = () => {
           to="#hot"
           onClick={() => {
             setActiveTab("hot");
-            window.scrollTo(0, 320);
+            window.scrollTo(0,0);
           }}
           className={`flex items-center gap-1 font-bold headfont-bold lg:text-xl text-base py-2 px-4 ${
             activeTab === "hot" ? "bg-slate-300 rounded-md" : "opacity-50"
@@ -37,7 +37,7 @@ const Tabs = () => {
           to="#new"
           onClick={() => {
             setActiveTab("new");
-            window.scrollTo(0, 320);
+            window.scrollTo(0,0);
           }}
           className={`flex items-center gap-1 font-bold headfont-bold lg:text-xl text-base py-2 px-4 ${
             activeTab === "new" ? "bg-slate-300 rounded-md" : "opacity-50"
@@ -50,7 +50,7 @@ const Tabs = () => {
           to="#top"
           onClick={() => {
             setActiveTab("top");
-            window.scrollTo(0, 320);
+            window.scrollTo(0,0);
           }}
           className={`flex items-center gap-1 font-bold headfont-bold lg:text-xl text-base py-2 px-4 ${
             activeTab === "top" ? "bg-slate-300 rounded-md" : "opacity-50"
