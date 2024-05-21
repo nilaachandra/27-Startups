@@ -8,7 +8,7 @@ import Loader from "../Components/Loader";
 import { useNavigate } from "react-router-dom";
 
 const AddPosts = () => {
-  const navigate = useNavigate()
+  
   const { postIdea, loading, error, refetch } = useSupaContext();
   const [description, setDescription] = useState("");
   const [username, setUsername] = useState("");
@@ -59,9 +59,7 @@ const AddPosts = () => {
       // Show success toast
       toast.success("Startup Idea posted successfully!🚀");
       refetch()
-      setTimeout( () => {
-        navigate('/')
-      },800)
+      
     }, 1500);
   };
   useEffect(()=>{
