@@ -90,7 +90,7 @@ const PostCard = ({
               </a>
             )}
             <span className="flex gap-1 items-center hover:underline hover:text-dark-button">
-              <FaRegCommentDots />
+              | <FaRegCommentDots />
               <span>{commentCount || 0}</span> Comments
             </span>
             |
@@ -99,7 +99,7 @@ const PostCard = ({
               Share
             </span>
           </div>
-          <p>Posted at {formatDate(createdAt) || "2024-09-09"} </p>
+          <p>Posted {formatDate(createdAt) || "2024-09-09"} </p>
         </div>
       </div>
       <div className="right flex leading-0 items-center text-lg flex-col lg:mr-4 mr-0">
