@@ -6,7 +6,7 @@ import { FaRegShareSquare } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { FiGithub, FiUser } from "react-icons/fi";
 import { formatDistanceToNow, parseISO } from 'date-fns';
-
+import { BiBarChartSquare } from "react-icons/bi";
 
 const PostCard = ({
   index,
@@ -37,7 +37,7 @@ const PostCard = ({
       className="w-full py-2 px-3 shadow-xl headfont-regular rounded-xl bg-white flex justify-between"
     >
       <div className="left lg:text-lg text-base flex flex-col justify-between">
-        <p className="hover:opacity-80 transition-all leading-none line duration-200">
+        <p className="hover:opacity-80 transition-all leading-none line duration-200 mb-3">
           <span>{index || "1. "}</span>
           {desc || "The quick brown fox jumps over the lazy dog."}
         </p>
@@ -99,7 +99,11 @@ const PostCard = ({
               Share
             </span>
           </div>
-          <p>Posted {formatDate(createdAt) || "2024-09-09"} </p>
+          <div className="flex gap-1 items-center">
+          <p>Posted {formatDate(createdAt) || "2024-09-09"} </p> 
+          | <BiBarChartSquare className="mt-0.5"/>
+          <span className="mt-0.5">124</span>
+          </div>
         </div>
       </div>
       <div className="right flex leading-0 items-center text-lg flex-col lg:mr-4 mr-0">
