@@ -9,7 +9,6 @@ import Loader from "./Loader";
 
 const Newposts = () => {
   const { data, isLoading, onSuccess } = useSupaContext();
-  console.log(data);
   return (
     <div
       className="w-h-[50vh] pt-4 headfont-regular flex gap-3 justify-center items-center flex-col"
