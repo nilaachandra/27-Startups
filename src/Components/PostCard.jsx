@@ -1,12 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FaRegCommentDots } from "react-icons/fa";
-import { FiTwitter } from "react-icons/fi";
-import { FaRegShareSquare } from "react-icons/fa";
-import { FaInstagram } from "react-icons/fa";
-import { FiGithub, FiUser } from "react-icons/fi";
+import { FiTwitter, FiGithub, FiUser } from "react-icons/fi";
+import { FaRegShareSquare, FaInstagram } from "react-icons/fa";
 import { formatDistanceToNow, parseISO } from 'date-fns';
 import { BiBarChartSquare } from "react-icons/bi";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useSupaContext } from "../contexts/SupaContext";
 
 const PostCard = ({
   index,
@@ -19,20 +19,36 @@ const PostCard = ({
   commentCount,
   createdAt,
   upvotes,
+  id,
+  votes_count
 }) => {
-  // Function to handle social link clicks
-  const handleSocialLinkClick = (e) => {
-    e.stopPropagation();
-  };
+  const queryClient = useQueryClient();
+  const { upvoteIdea, downvoteIdea, refetch, newPosts} = useSupaContext();
+
+  const upvoteMutation = useMutation({
+    mutationFn: upvoteIdea(id), 
+    onSuccess: () => {
+      queryClient.invalidateQueries('data');
+    },
+    onMutate: refetch()
+
+  });
+
+  const downvoteMutation = useMutation({
+    mutationFn: downvoteIdea(id), 
+    onSuccess: () => {
+      queryClient.invalidateQueries('data');
+    },
+    onMutate: refetch()
+  })
 
   const formatDate = (dateString) => {
     const date = parseISO(dateString);
     return formatDistanceToNow(date, { addSuffix: true });
   };
-  
+
   return (
-    <Link
-      to="/:post"
+    <div
       key={index}
       className="w-full py-2 px-3 shadow-xl headfont-regular rounded-xl bg-white flex justify-between"
     >
@@ -46,7 +62,6 @@ const PostCard = ({
             {twitter && (
               <a
                 href={`http://x.com/${social_username}`}
-                onClick={handleSocialLinkClick}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:underline hover:text-dark-button flex items-center gap-1"
@@ -58,7 +73,6 @@ const PostCard = ({
             {github && (
               <a
                 href={`http://github.com/${social_username}`}
-                onClick={handleSocialLinkClick}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:underline hover:text-dark-button flex items-center gap-1"
@@ -70,7 +84,6 @@ const PostCard = ({
             {instagram && (
               <a
                 href={`http://instagram.com/${social_username}`}
-                onClick={handleSocialLinkClick}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:underline hover:text-dark-button flex items-center gap-1"
@@ -82,7 +95,6 @@ const PostCard = ({
             {!twitter && !github && !instagram && (
               <a
                 href="#"
-                onClick={handleSocialLinkClick}
                 className="hover:underline hover:text-dark-button flex items-center gap-1"
               >
                 <FiUser />
@@ -100,22 +112,22 @@ const PostCard = ({
             </span>
           </div>
           <div className="flex gap-1 items-center">
-          <p>Posted {formatDate(createdAt) || "2024-09-09"} </p> 
-          | <BiBarChartSquare className="mt-0.5"/>
-          <span className="mt-0.5">124</span>
+            <p>Posted {formatDate(createdAt) || "2024-09-09"} </p>
+            | <BiBarChartSquare className="mt-0.5" />
+            <span className="mt-0.5">{upvotes || 0}</span>
           </div>
         </div>
       </div>
       <div className="right flex leading-0 items-center text-lg flex-col lg:mr-4 mr-0">
-        <button className="text-2xl px-2.5 py-.5 hover:bg-slate-300 rounded-md transition-all duration-200">
+        <button onClick={() => upvoteMutation.mutate(id)} className="text-2xl px-2.5 py-.5 hover:bg-slate-300 rounded-md transition-all duration-200">
           🦄
         </button>
-        <span className="font-bold lg:text-lg text-base">{upvotes || 0}</span>
-        <button className="text-2xl px-2.5 py-.5 hover:bg-slate-300 rounded-md transition-all duration-200">
+        <span className="font-bold lg:text-lg text-base">{votes_count || 0}</span>
+        <button onClick={() => downvoteMutation.mutate(id)} className="text-2xl px-2.5 py-.5 hover:bg-slate-300 rounded-md transition-all duration-200">
           ⚰️
         </button>
       </div>
-    </Link>
+    </div>
   );
 };
 

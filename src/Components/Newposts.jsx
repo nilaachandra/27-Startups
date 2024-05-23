@@ -1,34 +1,39 @@
-import React from "react";
-import PostCard from "./PostCard";
-import dummyPosts from "../dummydata";
-import Button from "./Button";
-import { FaPlus } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { useSupaContext } from "../contexts/SupaContext";
-import Loader from "./Loader";
-
+import Button from "./Button";
+import { FaPlus } from "react-icons/fa";
+import Loader from './Loader'
+import PostCard from './PostCard'
 const Newposts = () => {
-  const { data, isLoading, onSuccess } = useSupaContext();
+  const { newPosts, isLoading } = useSupaContext();
+
   return (
     <div
       className="w-h-[50vh] pt-4 headfont-regular flex gap-3 justify-center items-center flex-col"
       id="hot"
     >
+      <Link to="/create-post">
+        <Button className="mb-4 flex items-center gap-2">
+          <FaPlus /> Create New Post
+        </Button>
+      </Link>
       {isLoading ? (
         <Loader type="spin" color="#09a129" height={50} width={50} />
       ) : (
-        data?.map((post, index) => (
+        newPosts?.map((post) => (
           <PostCard
-            key={index}
+            key={post.id}
             desc={post.description}
             username={post.username}
             social_username={post.social_username}
-            upvotes={post.upvotes}
+            upvotes={post.upvotes?.length || 0} // Assuming upvotes is an array of user IDs
             commentCount={post.commentCount}
             createdAt={post.created_at}
             twitter={post.twitter}
             github={post.github}
             instagram={post.instagram}
+            id={post.id}
+            votes_count={post.votes_count}
           />
         ))
       )}
