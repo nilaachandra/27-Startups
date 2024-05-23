@@ -12,11 +12,6 @@ const Newposts = () => {
       className="w-h-[50vh] pt-4 headfont-regular flex gap-3 justify-center items-center flex-col"
       id="hot"
     >
-      <Link to="/create-post">
-        <Button className="mb-4 flex items-center gap-2">
-          <FaPlus /> Create New Post
-        </Button>
-      </Link>
       {isLoading ? (
         <Loader type="spin" color="#09a129" height={50} width={50} />
       ) : (
