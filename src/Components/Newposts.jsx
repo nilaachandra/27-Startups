@@ -6,7 +6,6 @@ import Loader from './Loader'
 import PostCard from './PostCard'
 const Newposts = () => {
   const { newPosts, isLoading } = useSupaContext();
-
   return (
     <div
       className="w-h-[50vh] pt-4 headfont-regular flex gap-3 justify-center items-center flex-col"
@@ -28,7 +27,10 @@ const Newposts = () => {
             github={post.github}
             instagram={post.instagram}
             id={post.id}
-            votes_count={post.upvotes.length - post.downvotes.length}
+            // post.hasDownvoted && post.upvotes_count === 0 ?  post.upvotes_count - 1 : post.upvotes_count 
+            votes_count={ post.upvotes_count - post.downvotes_count }
+            hasUpvoted={post.hasUpvoted}
+            hasDownvoted={post.hasDownvoted}
           />
         ))
       )}

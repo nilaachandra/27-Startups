@@ -3,7 +3,6 @@ import { FiTwitter, FiGithub, FiUser } from "react-icons/fi";
 import { FaRegShareSquare, FaInstagram, FaRegCommentDots } from "react-icons/fa";
 import { formatDistanceToNow, parseISO } from 'date-fns';
 import { BiBarChartSquare } from "react-icons/bi";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSupaContext } from "../contexts/SupaContext";
 
 const PostCard = ({
@@ -16,74 +15,27 @@ const PostCard = ({
   social_username,
   commentCount,
   createdAt,
-  upvotes,
   id,
+  upvotes_count,
+  hasUpvoted,
+  hasDownvoted,
   votes_count
 }) => {
-  const queryClient = useQueryClient();
-  const { upvoteIdea, downvoteIdea, userID, refetch } = useSupaContext();
-
-  const upvoteMutation = useMutation({mutationFn: upvoteIdea(id), 
-    onMutate: async () => {
-      await queryClient.cancelQueries('data');
-      const previousData = queryClient.getQueryData('data');
-      queryClient.setQueryData('data', (oldData) => {
-        const updatedData = oldData.map(post =>
-          post.id === id
-            ? { 
-                ...post, 
-                upvotes: post.upvotes.includes(userID) 
-                  ? post.upvotes.filter(uid => uid !== userID) 
-                  : [...post.upvotes, userID],
-                downvotes: post.downvotes.filter(uid => uid !== userID)
-              }
-            : post
-        );
-        return updatedData;
-      });
-      return { previousData };
-    },
-    onError: (err, variables, context) => {
-      queryClient.setQueryData('data', context.previousData);
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries('data');
-      refetch()
-    },
-  });
-
-  const downvoteMutation = useMutation({mutationFn: downvoteIdea(id), 
-    onMutate: async () => {
-      await queryClient.cancelQueries('data');
-      const previousData = queryClient.getQueryData('data');
-      queryClient.setQueryData('data', (oldData) => {
-        const updatedData = oldData.map(post =>
-          post.id === id
-            ? { 
-                ...post, 
-                downvotes: post.downvotes.includes(userID) 
-                  ? post.downvotes.filter(uid => uid !== userID) 
-                  : [...post.downvotes, userID],
-                upvotes: post.upvotes.filter(uid => uid !== userID)
-              }
-            : post
-        );
-        return updatedData;
-      });
-      return { previousData };
-    },
-    onError: (err, variables, context) => {
-      queryClient.setQueryData('data', context.previousData);
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries('data');
-      refetch()
-    },
-  });
+  const { upvoteIdea, downvoteIdea, refetch } = useSupaContext();
 
   const formatDate = (dateString) => {
     const date = parseISO(dateString);
     return formatDistanceToNow(date, { addSuffix: true });
+  };
+
+  const handleUpvote = async () => {
+    await upvoteIdea(id);
+    refetch();
+  };
+
+  const handleDownvote = async () => {
+    await downvoteIdea(id);
+    refetch();
   };
 
   return (
@@ -93,7 +45,7 @@ const PostCard = ({
     >
       <div className="left lg:text-lg text-base flex flex-col justify-between">
         <p className="hover:opacity-80 transition-all leading-none line duration-200 mb-3">
-          <span>{index || "1. "}</span>
+          <span>{index + 1 || "1. "}</span>
           {desc || "The quick brown fox jumps over the lazy dog."}
         </p>
         <div className="info lg:text-sm text-xs text-zinc-700">
@@ -153,23 +105,23 @@ const PostCard = ({
           <div className="flex gap-1 items-center">
             <p>Posted {formatDate(createdAt) || "2024-09-09"} </p>
             | <BiBarChartSquare className="mt-0.5" />
-            <span className="mt-0.5">{upvotes || 0}</span>
+            <span className="mt-0.5">{upvotes_count || 0}</span>
           </div>
         </div>
       </div>
       <div className="right flex leading-0 items-center text-lg flex-col lg:mr-4 mr-0">
         <button 
-          onClick={() => upvoteMutation.mutate(id)} 
-          className="text-2xl px-2.5 py-.5 hover:bg-slate-300 rounded-md transition-all duration-200"
+          onClick={handleUpvote} 
+          className={`text-2xl px-2.5 py-0.5 rounded-md transition-all duration-200 ${hasUpvoted ? 'bg-slate-300' : 'hover:bg-slate-300'}`}
         >
           🦄
         </button>
         <span className="font-bold lg:text-lg text-base">{votes_count || 0}</span>
         <button 
-          onClick={() => downvoteMutation.mutate(id)} 
-          className="text-2xl px-2.5 py-.5 hover:bg-slate-300 rounded-md transition-all duration-200"
+          onClick={handleDownvote} 
+          className={`text-2xl px-2.5 py-0.5 rounded-md transition-all duration-200 ${hasDownvoted ? 'bg-slate-300' : 'hover:bg-slate-300'}`}
         >
-          ⚰️
+          👎
         </button>
       </div>
     </div>
