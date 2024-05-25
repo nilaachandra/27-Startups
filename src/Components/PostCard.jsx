@@ -1,8 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { FaRegCommentDots } from "react-icons/fa";
 import { FiTwitter, FiGithub, FiUser } from "react-icons/fi";
-import { FaRegShareSquare, FaInstagram } from "react-icons/fa";
+import { FaRegShareSquare, FaInstagram, FaRegCommentDots } from "react-icons/fa";
 import { formatDistanceToNow, parseISO } from 'date-fns';
 import { BiBarChartSquare } from "react-icons/bi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -23,24 +21,65 @@ const PostCard = ({
   votes_count
 }) => {
   const queryClient = useQueryClient();
-  const { upvoteIdea, downvoteIdea, refetch, newPosts} = useSupaContext();
+  const { upvoteIdea, downvoteIdea, userID, refetch } = useSupaContext();
 
-  const upvoteMutation = useMutation({
-    mutationFn: upvoteIdea(id), 
-    onSuccess: () => {
-      queryClient.invalidateQueries('data');
+  const upvoteMutation = useMutation({mutationFn: upvoteIdea(id), 
+    onMutate: async () => {
+      await queryClient.cancelQueries('data');
+      const previousData = queryClient.getQueryData('data');
+      queryClient.setQueryData('data', (oldData) => {
+        const updatedData = oldData.map(post =>
+          post.id === id
+            ? { 
+                ...post, 
+                upvotes: post.upvotes.includes(userID) 
+                  ? post.upvotes.filter(uid => uid !== userID) 
+                  : [...post.upvotes, userID],
+                downvotes: post.downvotes.filter(uid => uid !== userID)
+              }
+            : post
+        );
+        return updatedData;
+      });
+      return { previousData };
     },
-    onMutate: refetch()
-
+    onError: (err, variables, context) => {
+      queryClient.setQueryData('data', context.previousData);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries('data');
+      refetch()
+    },
   });
 
-  const downvoteMutation = useMutation({
-    mutationFn: downvoteIdea(id), 
-    onSuccess: () => {
-      queryClient.invalidateQueries('data');
+  const downvoteMutation = useMutation({mutationFn: downvoteIdea(id), 
+    onMutate: async () => {
+      await queryClient.cancelQueries('data');
+      const previousData = queryClient.getQueryData('data');
+      queryClient.setQueryData('data', (oldData) => {
+        const updatedData = oldData.map(post =>
+          post.id === id
+            ? { 
+                ...post, 
+                downvotes: post.downvotes.includes(userID) 
+                  ? post.downvotes.filter(uid => uid !== userID) 
+                  : [...post.downvotes, userID],
+                upvotes: post.upvotes.filter(uid => uid !== userID)
+              }
+            : post
+        );
+        return updatedData;
+      });
+      return { previousData };
     },
-    onMutate: refetch()
-  })
+    onError: (err, variables, context) => {
+      queryClient.setQueryData('data', context.previousData);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries('data');
+      refetch()
+    },
+  });
 
   const formatDate = (dateString) => {
     const date = parseISO(dateString);
@@ -119,11 +158,17 @@ const PostCard = ({
         </div>
       </div>
       <div className="right flex leading-0 items-center text-lg flex-col lg:mr-4 mr-0">
-        <button onClick={() => upvoteMutation.mutate(id)} className="text-2xl px-2.5 py-.5 hover:bg-slate-300 rounded-md transition-all duration-200">
+        <button 
+          onClick={() => upvoteMutation.mutate(id)} 
+          className="text-2xl px-2.5 py-.5 hover:bg-slate-300 rounded-md transition-all duration-200"
+        >
           🦄
         </button>
         <span className="font-bold lg:text-lg text-base">{votes_count || 0}</span>
-        <button onClick={() => downvoteMutation.mutate(id)} className="text-2xl px-2.5 py-.5 hover:bg-slate-300 rounded-md transition-all duration-200">
+        <button 
+          onClick={() => downvoteMutation.mutate(id)} 
+          className="text-2xl px-2.5 py-.5 hover:bg-slate-300 rounded-md transition-all duration-200"
+        >
           ⚰️
         </button>
       </div>

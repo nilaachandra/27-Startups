@@ -28,7 +28,7 @@ const Newposts = () => {
             github={post.github}
             instagram={post.instagram}
             id={post.id}
-            votes_count={post.votes_count}
+            votes_count={post.upvotes.length - post.downvotes.length}
           />
         ))
       )}

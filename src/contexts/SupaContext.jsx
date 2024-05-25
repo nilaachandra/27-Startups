@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "../supabase/supabaseClient";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { v4 as uuidv4 } from "uuid";
 
 const SupaContext = createContext();
@@ -10,7 +10,6 @@ export const SupaProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [userID, setUserID] = useState("");
 
-  // Generate a user ID on component mount
   useEffect(() => {
     let storedUserID = localStorage.getItem("userID");
     if (!storedUserID) {
@@ -20,7 +19,6 @@ export const SupaProvider = ({ children }) => {
     setUserID(storedUserID);
   }, []);
 
-  // Add a post context
   const postIdea = async (ideaData) => {
     setLoading(true);
     try {
@@ -34,7 +32,6 @@ export const SupaProvider = ({ children }) => {
     setLoading(false);
   };
 
-  // Fetch posts using Tanstack Query
   const fetchPost = async () => {
     const { data, error } = await supabase
       .from("ideas")
@@ -44,20 +41,15 @@ export const SupaProvider = ({ children }) => {
     return data;
   };
 
-  const {
-    data: newPosts,
-    isLoading,
-    refetch,
-  } = useQuery({
+  const { data: newPosts, isLoading, refetch } = useQuery({
     queryKey: ["data"],
     queryFn: fetchPost,
   });
 
-  // Post upvote and downvote logic
   const updateVotes = async (id, action) => {
     const { data: idea, error } = await supabase
       .from("ideas")
-      .select("upvotes, downvotes, votes_count")
+      .select("upvotes, downvotes")
       .eq("id", id)
       .single();
 
@@ -65,49 +57,35 @@ export const SupaProvider = ({ children }) => {
 
     let upvotes = idea.upvotes || [];
     let downvotes = idea.downvotes || [];
-    let votes_count = idea.votes_count || 0;
 
     if (action === "upvote") {
-      if (!upvotes.includes(userID)) {
-        upvotes.push(userID);
-        votes_count += 1;
-        if (downvotes.includes(userID)) {
-          downvotes = downvotes.filter((uid) => uid !== userID);
-          votes_count += 1; // Removing a downvote also increases the count
-        }
-      } else {
+      if (upvotes.includes(userID)) {
         upvotes = upvotes.filter((uid) => uid !== userID);
-        votes_count -= 1;
+      } else {
+        upvotes.push(userID);
+        downvotes = downvotes.filter((uid) => uid !== userID);
       }
     } else if (action === "downvote") {
-      if (!downvotes.includes(userID)) {
-        downvotes.push(userID);
-        votes_count -= 1;
-        if (upvotes.includes(userID)) {
-          upvotes = upvotes.filter((uid) => uid !== userID);
-          votes_count -= 1; // Removing an upvote also decreases the count
-        }
-      } else {
+      if (downvotes.includes(userID)) {
         downvotes = downvotes.filter((uid) => uid !== userID);
-        votes_count += 1;
+      } else {
+        downvotes.push(userID);
+        upvotes = upvotes.filter((uid) => uid !== userID);
       }
     }
+
     const { error: updateError } = await supabase
       .from("ideas")
-      .update({ upvotes, downvotes, votes_count })
+      .update({ upvotes, downvotes })
       .eq("id", id);
 
     if (updateError) throw updateError;
-    return { upvotes, downvotes, votes_count };
+    return { upvotes, downvotes };
   };
 
-  const upvoteIdea = async (id) => {
-    return updateVotes(id, 'upvote');
-  }
+  const upvoteIdea = (id) => updateVotes(id, "upvote");
+  const downvoteIdea = (id) => updateVotes(id, "downvote");
 
-  const downvoteIdea = async (id) => {
-    return updateVotes(id, 'downvote');
-  }
   return (
     <SupaContext.Provider
       value={{
