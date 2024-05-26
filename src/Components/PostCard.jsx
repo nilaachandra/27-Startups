@@ -47,7 +47,7 @@ const PostCard = ({
           <span>{index + 1 || "1. "}</span>
           {showFullDescription ? desc : (desc.substring(0, maxDescriptionLength) + (desc.length > maxDescriptionLength ? "..." : ""))}
           {desc.length > maxDescriptionLength && (
-            <button onClick={toggleShowDescription} className="text-blue-500 hover:underline focus:outline-none ml-1 transition-all duration-300">
+            <button onClick={toggleShowDescription} className="text-light-button hover:underline focus:outline-none ml-1 transition-all duration-300">
               {showFullDescription ? "Read Less" : "Read More"}
             </button>
           )}
