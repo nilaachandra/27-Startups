@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FiTwitter, FiGithub, FiUser } from "react-icons/fi";
 import { FaRegShareSquare, FaInstagram, FaRegCommentDots } from "react-icons/fa";
 import { formatDistanceToNow, parseISO } from 'date-fns';
@@ -20,6 +20,13 @@ const PostCard = ({
   hasUpvoted,
 }) => {
   const { upvoteIdea } = useSupaContext();
+  const [showFullDescription, setShowFullDescription] = useState(false);
+
+  const maxDescriptionLength = 250; // Maximum characters to display without "Read More"
+
+  const toggleShowDescription = () => {
+    setShowFullDescription(!showFullDescription);
+  };
 
   const formatDate = (dateString) => {
     const date = parseISO(dateString);
@@ -33,12 +40,17 @@ const PostCard = ({
   return (
     <div
       key={index}
-      className="w-full py-2 px-3 shadow-xl headfont-regular rounded-xl bg-white flex justify-between"
+      className="w-full py-2 px-3 shadow-xl headfont-regular rounded-xl bg-white flex justify-between transition-all duration-300"
     >
-      <div className="left lg:text-lg text-base flex flex-col justify-between">
-        <p className="hover:opacity-80 transition-all leading-none line duration-200 mb-3">
+      <div className="left lg:text-lg text-base flex flex-col transition-all duration-300 justify-between">
+        <p className={`hover:opacity-80 transition-all leading-none line duration-200 mb-3 ${showFullDescription ? 'max-h-full' : 'max-h-32 overflow-hidden'}`}>
           <span>{index + 1 || "1. "}</span>
-          {desc || "The quick brown fox jumps over the lazy dog."}
+          {showFullDescription ? desc : (desc.substring(0, maxDescriptionLength) + (desc.length > maxDescriptionLength ? "..." : ""))}
+          {desc.length > maxDescriptionLength && (
+            <button onClick={toggleShowDescription} className="text-blue-500 hover:underline focus:outline-none ml-1 transition-all duration-300">
+              {showFullDescription ? "Read Less" : "Read More"}
+            </button>
+          )}
         </p>
         <div className="info lg:text-sm text-xs text-zinc-700">
           <div className="func flex gap-1 lg:gap-1.5 items-center">
@@ -104,7 +116,7 @@ const PostCard = ({
       <div className="right flex justify-center leading-0 items-center text-lg flex-col lg:mr-4 mr-0">
         <button 
           onClick={handleUpvote} 
-          className={`text-2xl px-2.5 py-0.5 rounded-md transition-all duration-200 ${hasUpvoted ? 'bg-slate-300' : 'hover:bg-slate-300'}`}
+          className={`text-2xl px-2.5 py-0.5 rounded-md transition-all duration-300 ${hasUpvoted ? 'bg-slate-300' : ' lg:hover:bg-slate-300'}`}
         >
           🦄
         </button>
