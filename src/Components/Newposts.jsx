@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSupaContext } from "../contexts/SupaContext";
 import Button from "./Button";
 import { FaPlus } from "react-icons/fa";
@@ -7,7 +7,7 @@ import PostCard from './PostCard';
 
 const Newposts = () => {
   const { newPosts, isLoading } = useSupaContext();
-
+const navigate = useNavigate()
   return (
     <div
       className="w-h-[50vh] pt-4 headfont-regular flex gap-3 justify-center items-center flex-col"
@@ -18,6 +18,9 @@ const Newposts = () => {
       ) : (
         newPosts?.map((post) => (
           <PostCard
+            onClick={(id) => {
+              navigate(`/${post.id}/${post.username}/${post.created_at}`)
+            }}
             key={post.id}
             desc={post.description}
             username={post.username}

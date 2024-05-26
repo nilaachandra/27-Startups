@@ -5,6 +5,7 @@ import Homepage from "./Pages/Homepage";
 import AddPosts from "./Pages/AddPosts";
 import { SupaProvider } from "./contexts/SupaContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import ReadPost from "./Pages/ReadPost";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -19,6 +20,10 @@ const App = () => {
           path: "add-an-idea",
           element: <AddPosts />,
         },
+        {
+          path: ":id/:username/:created_at",
+          element: <ReadPost/>
+        }
       ],
     },
   ]);
