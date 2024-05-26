@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "../supabase/supabaseClient";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { v4 as uuidv4 } from "uuid";
 
 const SupaContext = createContext();
@@ -37,159 +37,78 @@ export const SupaProvider = ({ children }) => {
       .from("ideas")
       .select(`
         *,
-        votes(idea_id, userID),
-        downvotes(idea_id, userID)
+        votes(idea_id, userID)
       `)
       .order("created_at", { ascending: false });
     if (error) throw new Error(error.message);
     return data.map(idea => ({
       ...idea,
       upvotes_count: idea.votes.length,
-      downvotes_count: idea.downvotes.length,
       hasUpvoted: idea.votes.some(vote => vote.userID === userID),
-      hasDownvoted: idea.downvotes.some(vote => vote.userID === userID)
     }));
   };
 
   const { data: newPosts, isLoading, refetch } = useQuery({
-    queryKey: ["data", userID], // Adding userID as a dependency to refetch when userID changes
+    queryKey: ["data", userID],
     queryFn: fetchPost,
-    enabled: !!userID // Ensuring the query runs only when userID is set
+    enabled: !!userID
   });
 
-  const upvoteIdea = async (id) => {
-    setLoading(true);
+  const queryClient = useQueryClient();
+
+  const handleUpvote = async (id) => {
     try {
-      // Check if the user has already downvoted the post
-      const { data: existingDownvotes, error: fetchDownvoteError } = await supabase
-        .from('downvotes')
-        .select('*')
-        .eq('idea_id', id)
-        .eq('userID', userID);
-      
-      if (fetchDownvoteError) {
-        throw new Error(fetchDownvoteError.message);
-      }
-
-      if (existingDownvotes.length > 0) {
-        // Remove the downvote
-        const { error: deleteDownvoteError } = await supabase
-          .from('downvotes')
-          .delete()
-          .eq('idea_id', id)
-          .eq('userID', userID);
-        
-        if (deleteDownvoteError) {
-          throw new Error(deleteDownvoteError.message);
-        }
-      }
-
-      // Check if the user has already upvoted the post
-      const { data: existingUpvotes, error: fetchUpvoteError } = await supabase
+      const { data: existingUpvotes } = await supabase
         .from('votes')
         .select('*')
         .eq('idea_id', id)
         .eq('userID', userID);
       
-      if (fetchUpvoteError) {
-        throw new Error(fetchUpvoteError.message);
-      }
-
       if (existingUpvotes.length > 0) {
-        // User has already upvoted the post, so remove the upvote
-        const { error: deleteUpvoteError } = await supabase
+        await supabase
           .from('votes')
           .delete()
           .eq('idea_id', id)
           .eq('userID', userID);
-        
-        if (deleteUpvoteError) {
-          throw new Error(deleteUpvoteError.message);
-        }
       } else {
-        // User has not upvoted the post, so add the upvote
-        const { error: insertUpvoteError } = await supabase.from('votes').insert({
-          idea_id: id,
-          userID: userID,
-        });
-        
-        if (insertUpvoteError) {
-          throw new Error(insertUpvoteError.message);
-        }
-      }
-      refetch();
-    } catch (error) {
-      setError(error.message);
-    }
-    setLoading(false);
-  };
-
-  const downvoteIdea = async (id) => {
-    setLoading(true);
-    try {
-      // Check if the user has already upvoted the post
-      const { data: existingUpvotes, error: fetchUpvoteError } = await supabase
-        .from('votes')
-        .select('*')
-        .eq('idea_id', id)
-        .eq('userID', userID);
-      
-      if (fetchUpvoteError) {
-        throw new Error(fetchUpvoteError.message);
-      }
-
-      if (existingUpvotes.length > 0) {
-        // Remove the upvote
-        const { error: deleteUpvoteError } = await supabase
+        await supabase
           .from('votes')
-          .delete()
-          .eq('idea_id', id)
-          .eq('userID', userID);
-        
-        if (deleteUpvoteError) {
-          throw new Error(deleteUpvoteError.message);
-        }
+          .insert({ idea_id: id, userID: userID });
       }
-
-      // Check if the user has already downvoted the post
-      const { data: existingDownvotes, error: fetchDownvoteError } = await supabase
-        .from('downvotes')
-        .select('*')
-        .eq('idea_id', id)
-        .eq('userID', userID);
-      
-      if (fetchDownvoteError) {
-        throw new Error(fetchDownvoteError.message);
-      }
-
-      if (existingDownvotes.length > 0) {
-        // User has already downvoted the post, so remove the downvote
-        const { error: deleteDownvoteError } = await supabase
-          .from('downvotes')
-          .delete()
-          .eq('idea_id', id)
-          .eq('userID', userID);
-        
-        if (deleteDownvoteError) {
-          throw new Error(deleteDownvoteError.message);
-        }
-      } else {
-        // User has not downvoted the post, so add the downvote
-        const { error: insertDownvoteError } = await supabase.from('downvotes').insert({
-          idea_id: id,
-          userID: userID,
-        });
-        
-        if (insertDownvoteError) {
-          throw new Error(insertDownvoteError.message);
-        }
-      }
-      refetch();
     } catch (error) {
-      setError(error.message);
+      throw new Error(error.message);
     }
-    setLoading(false);
   };
+
+  const mutation = useMutation({
+    mutationFn: handleUpvote,
+    onMutate: async (id) => {
+      await queryClient.cancelQueries(['data', userID]);
+
+      const previousPosts = queryClient.getQueryData(['data', userID]);
+
+      queryClient.setQueryData(['data', userID], old => {
+        return old.map(idea => {
+          if (idea.id === id) {
+            const hasUpvoted = !idea.hasUpvoted;
+            const upvotes_count = hasUpvoted ? idea.upvotes_count + 1 : idea.upvotes_count - 1;
+            return { ...idea, hasUpvoted, upvotes_count };
+          }
+          return idea;
+        });
+      });
+
+      return { previousPosts };
+    },
+    onError: (err, id, context) => {
+      queryClient.setQueryData(['data', userID], context.previousPosts);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(['data', userID]);
+    },
+  });
+
+  const upvoteIdea = (id) => mutation.mutate(id);
 
   return (
     <SupaContext.Provider
@@ -202,7 +121,6 @@ export const SupaProvider = ({ children }) => {
         refetch,
         userID,
         upvoteIdea,
-        downvoteIdea,
       }}
     >
       {children}

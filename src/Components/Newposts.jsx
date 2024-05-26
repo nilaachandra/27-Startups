@@ -2,10 +2,12 @@ import { Link } from "react-router-dom";
 import { useSupaContext } from "../contexts/SupaContext";
 import Button from "./Button";
 import { FaPlus } from "react-icons/fa";
-import Loader from './Loader'
-import PostCard from './PostCard'
+import Loader from './Loader';
+import PostCard from './PostCard';
+
 const Newposts = () => {
   const { newPosts, isLoading } = useSupaContext();
+
   return (
     <div
       className="w-h-[50vh] pt-4 headfont-regular flex gap-3 justify-center items-center flex-col"
@@ -20,17 +22,15 @@ const Newposts = () => {
             desc={post.description}
             username={post.username}
             social_username={post.social_username}
-            upvotes={post.upvotes?.length || 0} // Assuming upvotes is an array of user IDs
+            upvotes_count={post.upvotes_count} // Updated to reflect the new property
             commentCount={post.commentCount}
             createdAt={post.created_at}
             twitter={post.twitter}
             github={post.github}
             instagram={post.instagram}
             id={post.id}
-            // post.hasDownvoted && post.upvotes_count === 0 ?  post.upvotes_count - 1 : post.upvotes_count 
-            votes_count={ post.upvotes_count - post.downvotes_count }
+            votes_count={post.upvotes_count} // Updated to reflect the new property
             hasUpvoted={post.hasUpvoted}
-            hasDownvoted={post.hasDownvoted}
           />
         ))
       )}

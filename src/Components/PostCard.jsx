@@ -18,10 +18,8 @@ const PostCard = ({
   id,
   upvotes_count,
   hasUpvoted,
-  hasDownvoted,
-  votes_count
 }) => {
-  const { upvoteIdea, downvoteIdea, refetch } = useSupaContext();
+  const { upvoteIdea } = useSupaContext();
 
   const formatDate = (dateString) => {
     const date = parseISO(dateString);
@@ -29,13 +27,7 @@ const PostCard = ({
   };
 
   const handleUpvote = async () => {
-    await upvoteIdea(id);
-    refetch();
-  };
-
-  const handleDownvote = async () => {
-    await downvoteIdea(id);
-    refetch();
+    upvoteIdea(id);
   };
 
   return (
@@ -109,20 +101,14 @@ const PostCard = ({
           </div>
         </div>
       </div>
-      <div className="right flex leading-0 items-center text-lg flex-col lg:mr-4 mr-0">
+      <div className="right flex justify-center leading-0 items-center text-lg flex-col lg:mr-4 mr-0">
         <button 
           onClick={handleUpvote} 
           className={`text-2xl px-2.5 py-0.5 rounded-md transition-all duration-200 ${hasUpvoted ? 'bg-slate-300' : 'hover:bg-slate-300'}`}
         >
           🦄
         </button>
-        <span className="font-bold lg:text-lg text-base">{votes_count || 0}</span>
-        <button 
-          onClick={handleDownvote} 
-          className={`text-2xl px-2.5 py-0.5 rounded-md transition-all duration-200 ${hasDownvoted ? 'bg-slate-300' : 'hover:bg-slate-300'}`}
-        >
-          👎
-        </button>
+        <span className="font-bold lg:text-lg text-base">{upvotes_count || 0}</span>
       </div>
     </div>
   );
