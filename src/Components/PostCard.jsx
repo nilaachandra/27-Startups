@@ -35,7 +35,8 @@ const PostCard = ({
     return formatDistanceToNow(date, { addSuffix: true });
   };
 
-  const handleUpvote = async () => {
+  const handleUpvote = async (e) => {
+    e.stopPropagation()
     upvoteIdea(id);
   };
 
