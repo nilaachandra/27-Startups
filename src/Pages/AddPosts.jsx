@@ -8,31 +8,36 @@ import Loader from "../Components/Loader";
 import { useNavigate } from "react-router-dom";
 
 const AddPosts = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { postIdea, loading, error, refetch } = useSupaContext();
   const [description, setDescription] = useState("");
   const [username, setUsername] = useState("");
   const [socialHandle, setSocialHandle] = useState("");
   const [socialType, setSocialType] = useState("Twitter");
+  const [showSocials, setShowSocials] = useState(false); // New state variable
   const [isPosting, setIsPosting] = useState(false);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     let twitter = false;
     let instagram = false;
     let github = false;
 
-    switch (socialType) {
-      case "Twitter":
-        twitter = true;
-        break;
-      case "Instagram":
-        instagram = true;
-        break;
-      case "Github":
-        github = true;
-        break;
-      default:
-        break;
+    if (showSocials) {
+      switch (socialType) {
+        case "Twitter":
+          twitter = true;
+          break;
+        case "Instagram":
+          instagram = true;
+          break;
+        case "Github":
+          github = true;
+          break;
+        default:
+          break;
+      }
     }
 
     // Show loading state in button
@@ -42,7 +47,7 @@ const AddPosts = () => {
       const ideaData = {
         description,
         username,
-        social_username: socialHandle,
+        social_username: showSocials ? socialHandle : null,
         twitter,
         instagram,
         github,
@@ -54,20 +59,22 @@ const AddPosts = () => {
       setUsername("");
       setSocialHandle("");
       setSocialType("Twitter");
+      setShowSocials(false);
       // Reset loading state
       setIsPosting(false);
       // Show success toast
       toast.success("Startup Idea posted successfully!🚀");
-      refetch()
+      refetch();
       setTimeout(() => {
-        navigate('/')
+        navigate("/");
       }, 700);
-      
     }, 1500);
   };
-  useEffect(()=>{
+
+  useEffect(() => {
     window.scrollTo(0, 0);
-  },[])
+  }, []);
+
   return (
     <div className="w-full mb-4 lg:p-2 p-1 headfont-regular flex flex-col gap-4">
       <h1 className="text-base lg:text-3xl mb-4 headfont-bold">
@@ -110,36 +117,51 @@ const AddPosts = () => {
           />
         </label>
 
-        <label htmlFor="social" className="flex flex-col w-full gap-2">
+        <label className="flex items-center  gap-2">
+          
           <span className="lg:text-lg text-sm text-light-text">
-            Show off Your Socials🤳🏽
+            Show off Your Socials🤳🏽?
           </span>
-          <div className="flex items-center w-full flex-col lg:gap-0 gap-3 lg:flex-row">
-            <div className="flex items-center w-full">
-              <span className="text-light-text rounded-l-md bg-zinc-400 p-3">
-                <FaAt size={25} />
-              </span>
-              <input
-                type="text"
-                id="social"
-                value={socialHandle}
-                onChange={(e) => setSocialHandle(e.target.value.toLowerCase().replace(/\s/g, ""))}
-                className="rounded-r-md p-3 w-full border border-zinc-400"
-                placeholder="Your social media handle..."
-              />
-            </div>
-            <select
-              id="socialType"
-              value={socialType}
-              onChange={(e) => setSocialType(e.target.value)}
-              className="p-3 rounded-md lg:ml-2 ml-0 border border-zinc-400 w-full lg:w-1/2"
-            >
-              <option value="Twitter">Twitter</option>
-              <option value="Instagram">Instagram</option>
-              <option value="Github">Github</option>
-            </select>
-          </div>
+          <input
+            type="checkbox"
+            checked={showSocials}
+            onChange={(e) => setShowSocials(e.target.checked)}
+            className="w-6 h-6"
+          />
         </label>
+
+        {showSocials && (
+          <label htmlFor="social" className="flex flex-col w-full gap-2">
+            <span className="lg:text-lg text-sm text-light-text">
+              Social Media Handle
+            </span>
+            <div className="flex items-center w-full flex-col lg:gap-0 gap-3 lg:flex-row">
+              <div className="flex items-center w-full">
+                <span className="text-light-text rounded-l-md bg-zinc-400 p-3">
+                  <FaAt size={25} />
+                </span>
+                <input
+                  type="text"
+                  id="social"
+                  value={socialHandle}
+                  onChange={(e) => setSocialHandle(e.target.value.toLowerCase().replace(/\s/g, ""))}
+                  className="rounded-r-md p-3 w-full border border-zinc-400"
+                  placeholder="Your social media handle..."
+                />
+              </div>
+              <select
+                id="socialType"
+                value={socialType}
+                onChange={(e) => setSocialType(e.target.value)}
+                className="p-3 rounded-md lg:ml-2 ml-0 border border-zinc-400 w-full lg:w-1/2"
+              >
+                <option value="Twitter">Twitter</option>
+                <option value="Instagram">Instagram</option>
+                <option value="Github">Github</option>
+              </select>
+            </div>
+          </label>
+        )}
 
         <Button
           type="submit"
