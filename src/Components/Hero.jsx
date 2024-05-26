@@ -54,7 +54,7 @@ const Hero = () => {
         </span>{" "}
         &{" "}
         <span className="group font-bold">
-          Comment
+          Reply
           <span className="inline-block  group-hover:scale-150 transform transition-transform duration-200">
             💬
           </span>

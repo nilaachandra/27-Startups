@@ -4,8 +4,7 @@ import { FaRegShareSquare, FaInstagram, FaRegCommentDots } from "react-icons/fa"
 import { formatDistanceToNow, parseISO } from 'date-fns';
 import { BiBarChartSquare } from "react-icons/bi";
 import { useSupaContext } from "../contexts/SupaContext";
-
-const PostCard = ({
+const ReadPostSingle = ({
   onClick,
   index,
   desc,
@@ -23,12 +22,7 @@ const PostCard = ({
   const { upvoteIdea } = useSupaContext();
   const [showFullDescription, setShowFullDescription] = useState(false);
 
-  const maxDescriptionLength = 250; // Maximum characters to display without "Read More"
-
-  const toggleShowDescription = (e) => {
-    e.stopPropagation()
-    setShowFullDescription(!showFullDescription);
-  };
+  const shareIdea = () => {}
 
   const formatDate = (dateString) => {
     const date = parseISO(dateString);
@@ -46,13 +40,8 @@ const PostCard = ({
       className="w-full cursor-pointer py-2 px-3 shadow-xl headfont-regular rounded-xl bg-white flex justify-between transition-all duration-300"
     >
       <div className="left lg:text-lg text-base flex flex-col transition-all duration-300 justify-between">
-        <p className={`hover:opacity-80 transition-all leading-none line duration-200 mb-3 ${showFullDescription ? 'max-h-full' : 'max-h-32 overflow-hidden'}`}>
-          {showFullDescription ? desc : (desc.substring(0, maxDescriptionLength) + (desc.length > maxDescriptionLength ? "..." : ""))}
-          {desc.length > maxDescriptionLength && (
-            <button onClick={toggleShowDescription} className="text-light-button hover:underline focus:outline-none ml-1 transition-all duration-300">
-              {showFullDescription ? "Read Less" : "Read More"}
-            </button>
-          )}
+        <p className="hover:opacity-80 transition-all leading-none line duration-200 mb-3">
+         {desc}
         </p>
         <div className="info lg:text-sm text-xs text-zinc-700">
           <div className="func flex gap-1 lg:gap-1.5 items-center">
@@ -103,6 +92,7 @@ const PostCard = ({
               <span>{commentCount || 0}</span> Replies
             </span>
             
+            
           </div>
           <div className="flex gap-1 items-center">
             <p>Posted {formatDate(createdAt) || "2024-09-09"} </p>
@@ -124,4 +114,4 @@ const PostCard = ({
   );
 };
 
-export default PostCard;
+export default ReadPostSingle;
