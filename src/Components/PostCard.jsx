@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+I'mimport { useState, useEffect } from "react";
 import { FiTwitter, FiGithub, FiUser } from "react-icons/fi";
 import { FaRegShareSquare, FaInstagram, FaRegCommentDots } from "react-icons/fa";
 import { formatDistanceToNow, parseISO } from 'date-fns';
@@ -57,7 +57,7 @@ const PostCard = ({
       <div className="left lg:text-lg text-base flex flex-col transition-all duration-300 justify-between">
         <p className={`hover:opacity-80 transition-all leading-none line duration-200 mb-3 ${showFullDescription ? 'max-h-full' : 'max-h-32 overflow-hidden'}`}>
           {showFullDescription ? desc : (desc.substring(0, maxDescriptionLength) + (desc.length > maxDescriptionLength ? "..." : ""))}
-          {desc.length > maxDescriptionLength && location.pathname === ':id/:username/:created_at' && ( // Render only if not in ReadPost page
+          {desc.length > maxDescriptionLength && ( // Render only if not in ReadPost page
             <button onClick={toggleShowDescription} className="text-light-button hover:underline focus:outline-none ml-1 transition-all duration-300">
               {showFullDescription ? "Read Less" : "Read More"}
             </button>
