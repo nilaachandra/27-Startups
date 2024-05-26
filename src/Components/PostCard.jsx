@@ -129,4 +129,3 @@ const PostCard = ({
 };
 
 export default PostCard;
-in this component, i want the read more and read less to be not there if the path of the url is the ReadPost page
