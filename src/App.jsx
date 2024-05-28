@@ -6,7 +6,7 @@ import AddPosts from "./Pages/AddPosts";
 import { SupaProvider } from "./contexts/SupaContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ReadPost from "./Pages/ReadPost";
-
+import { Analytics } from "@vercel/analytics/react"
 const App = () => {
   const router = createBrowserRouter([
     {
@@ -32,6 +32,7 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <SupaProvider>
         <RouterProvider router={router} />
+        <Analytics/>
       </SupaProvider>
     </QueryClientProvider>
   );
