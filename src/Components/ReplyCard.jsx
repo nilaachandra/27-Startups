@@ -4,7 +4,7 @@ import { FiGithub, FiTwitter, FiUser } from 'react-icons/fi'
 import { formatDistanceToNow, parseISO } from 'date-fns';
 import { BiBarChartSquare } from 'react-icons/bi';
 
-const ReplyCard = ({onClick, index,username,reply, twitter, github,instagram,createdAt}) => {
+const ReplyCard = ({onClick, key,username,reply,socialUsername, twitter, github,instagram,createdAt}) => {
 
     const formatDate = (dateString) => {
         const date = parseISO(dateString);
@@ -13,41 +13,41 @@ const ReplyCard = ({onClick, index,username,reply, twitter, github,instagram,cre
 
 
   return (
-    <div className='flex-col cursor-pointer py-2 px-3 shadow-xl headfont-regular rounded-xl bg-white flex justify-between transition-all duration-300'>
+    <div key={key} className='flex-col cursor-pointer py-2 px-3 shadow-xl headfont-regular rounded-xl bg-white flex justify-between transition-all duration-300'>
         
-        <div className="func flex gap-1 text-sm lg:gap-1.5 items-center">
+        <div className="func flex gap-2 text-sm lg:gap-1.5 items-center">
             Replied By
             {twitter && (
               <a
-                href={`http://x.com/${social_username}`}
+                href={`http://x.com/${socialUsername}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:underline hover:text-dark-button flex items-center gap-1"
               >
                 <FiTwitter />
-                {social_username}
+                {socialUsername}
               </a>
             )}
             {github && (
               <a
-                href={`http://github.com/${social_username}`}
+                href={`http://github.com/${socialUsername}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:underline hover:text-dark-button flex items-center gap-1"
               >
                 <FiGithub />
-                {social_username}
+                {socialUsername}
               </a>
             )}
             {instagram && (
               <a
-                href={`http://instagram.com/${social_username}`}
+                href={`http://instagram.com/${socialUsername}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:underline hover:text-dark-button flex items-center gap-1"
               >
                 <FaInstagram />
-                {social_username}
+                {socialUsername}
               </a>
             )}
             {!twitter && !github && !instagram && (
@@ -63,7 +63,7 @@ const ReplyCard = ({onClick, index,username,reply, twitter, github,instagram,cre
             <p className='text-base my-1'>{reply}</p>
 
             <div className="flex gap-1 items-center text-sm">
-            <p>Posted at 2024-09-09</p>
+            <p>Posted {formatDate(createdAt)} </p>
           </div>
     </div>
   )

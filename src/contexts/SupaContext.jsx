@@ -19,6 +19,7 @@ export const SupaProvider = ({ children }) => {
     setUserID(storedUserID);
   }, []);
 
+  //add a post
   const postIdea = async (ideaData) => {
     setLoading(true);
     try {
@@ -31,13 +32,14 @@ export const SupaProvider = ({ children }) => {
     }
     setLoading(false);
   };
-
+// fetch post
   const fetchPost = async () => {
     const { data, error } = await supabase
       .from("ideas")
       .select(`
         *,
-        votes(idea_id, userID)
+        votes(idea_id, userID),
+        comments(*)
       `)
       .order("created_at", { ascending: false });
     if (error) throw new Error(error.message);
@@ -56,6 +58,8 @@ export const SupaProvider = ({ children }) => {
 
   const queryClient = useQueryClient();
 
+
+  //upvoting an idea
   const handleUpvote = async (id) => {
     try {
       const { data: existingUpvotes } = await supabase
@@ -110,6 +114,22 @@ export const SupaProvider = ({ children }) => {
 
   const upvoteIdea = (id) => mutation.mutate(id);
 
+
+  //add a reply to each post
+  const postReply = async (ideaReply) => {
+    setLoading(true);
+    try {
+      const { data, error } = await supabase.from("comments").insert(ideaReply);
+      if (error) {
+        throw new Error(error.message);
+      }
+    } catch (error) {
+      setError(error.message);
+    }
+    setLoading(false);
+  };
+
+
   return (
     <SupaContext.Provider
       value={{
@@ -121,6 +141,7 @@ export const SupaProvider = ({ children }) => {
         refetch,
         userID,
         upvoteIdea,
+        postReply
       }}
     >
       {children}

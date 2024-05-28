@@ -14,17 +14,17 @@ const ReadPost = () => {
   const { id } = useParams();
 
   const navigate = useNavigate();
-  const { newPosts, isLoading } = useSupaContext();
+  const { newPosts, isLoading, postReply } = useSupaContext();
   const [currentPost, setCurrentPost] = useState({});
 
-  const [description, setDescription] = useState("");
+  const [reply, setReply] = useState("");
   const [username, setUsername] = useState("");
   const [socialHandle, setSocialHandle] = useState("");
   const [socialType, setSocialType] = useState("Twitter");
   const [showSocials, setShowSocials] = useState(false); // New state variable
   const [isPosting, setIsPosting] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleReplies = async (e) => {
     e.preventDefault();
 
     let twitter = false;
@@ -51,8 +51,9 @@ const ReadPost = () => {
     setIsPosting(true);
     // Simulate loading with setTimeout for 2 seconds
     setTimeout(async () => {
-      const ideaData = {
-        description,
+      const ideaReply = {
+        idea_id: currentPost.id,
+        reply,
         username,
         social_username: showSocials ? socialHandle : null,
         twitter,
@@ -60,9 +61,9 @@ const ReadPost = () => {
         github,
       };
 
-      await postIdea(ideaData);
+      await postReply(ideaReply)
       // Clear form fields after posting
-      setDescription("");
+      setReply("");
       setUsername("");
       setSocialHandle("");
       setSocialType("Twitter");
@@ -71,10 +72,7 @@ const ReadPost = () => {
       setIsPosting(false);
       // Show success toast
       toast.success("Startup Idea posted successfully!🚀");
-      refetch();
-      setTimeout(() => {
-        navigate("/");
-      }, 700);
+      // refetch();
     }, 1500);
   };
 
@@ -105,10 +103,7 @@ const ReadPost = () => {
       }
     }
   }
-  //add replies
-  const handleReplies = () =>{
-
-  }
+  
   // Check if currentPost is valid and has the required properties
   if (isLoading || !currentPost || Object.keys(currentPost).length === 0) {
     return (
@@ -117,7 +112,6 @@ const ReadPost = () => {
       </div>
     );
   }
-
   return (
     <div className="w-h-[50vh] pt-4 headfont-regular flex gap-3 justify-center items-center flex-col">
       <Toaster richColors position="top-center" duration={2500} />
@@ -169,19 +163,28 @@ const ReadPost = () => {
         </FacebookMessengerShareButton>
         </div>
       </div>
-      <p className="text-red-600 text-sm">By the way we are working on the reply feature, meanwhile You can Share Your Ideas or Add One!</p>
-
       <div className="flex w-full items-start flex-col">
       <h1>Replies To this Idea</h1>
 
 
       </div>
-
-      <div className="replies w-full gap-2 flex items-start flex-col">
-      <ReplyCard reply="Sorry My Bad!, I'm going to Zuckerberg this idea!"/>
-      <ReplyCard reply="The quick brown fox jumps over the lazy dog"/>
-
-      </div>
+{currentPost.comments.length > 0 ? <div className="replies w-full gap-2 flex items-start flex-col">
+      {currentPost.comments.map((rep,i) => 
+        <div key={i}>
+          <ReplyCard
+        reply={rep.reply}
+        socialUsername = {rep.social_username}
+        username={rep.username}
+        createdAt={rep.created_at}
+        github={rep.github}
+        twitter={rep.twitter}
+        instagram={rep.instagram}
+        />
+        </div>
+      )}
+      </div> : 
+      <div className="w-full flex"><p>There are no replies to this Idea. Add one!</p></div>}
+  
 
 
       <div className="w-full mb-4 lg:p-2 p-1 headfont-regular flex flex-col gap-4">
@@ -196,8 +199,8 @@ const ReadPost = () => {
           <textarea
             id="description"
             rows={6}
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            value={reply}
+            onChange={(e) => setReply(e.target.value)}
             className="rounded-md border p-2 border-light-text"
             placeholder="Well Go on, reply him or be the founder yourself!"
             required
