@@ -29,12 +29,14 @@ const App = () => {
   ]);
   const queryClient = new QueryClient();
   return (
+    <>
     <QueryClientProvider client={queryClient}>
       <SupaProvider>
         <RouterProvider router={router} />
-        <Analytics/>
       </SupaProvider>
     </QueryClientProvider>
+    <Analytics/>
+    </>
   );
 };
 
