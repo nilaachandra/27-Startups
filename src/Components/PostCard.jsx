@@ -19,6 +19,7 @@ const PostCard = ({
   id,
   upvotes_count,
   hasUpvoted,
+  engagements
 }) => {
   const { upvoteIdea } = useSupaContext();
   const [showFullDescription, setShowFullDescription] = useState(false);
@@ -108,7 +109,7 @@ const PostCard = ({
           <div className="flex gap-1 items-center">
             <p>Posted {formatDate(createdAt) || "2024-09-09"} </p>
             | <BiBarChartSquare className="mt-0.5" />
-            <span className="mt-0.5">{upvotes_count || 0}</span>
+            <span className="mt-0.5">{engagements || 0}</span>
           </div>
         </div>
       </div>

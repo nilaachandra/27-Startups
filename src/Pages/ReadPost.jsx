@@ -14,7 +14,7 @@ const ReadPost = () => {
   const { id } = useParams();
 
   const navigate = useNavigate();
-  const { newPosts, isLoading, postReply } = useSupaContext();
+  const { newPosts, isLoading, postReply, refetch } = useSupaContext();
   const [currentPost, setCurrentPost] = useState({});
 
   const [reply, setReply] = useState("");
@@ -71,8 +71,9 @@ const ReadPost = () => {
       // Reset loading state
       setIsPosting(false);
       // Show success toast
-      toast.success("Startup Idea posted successfully!🚀");
-      // refetch();
+      toast.success("Reply posted successfully!💬");
+      refetch();
+      window.scrollTo(0, 0)
     }, 1500);
   };
 
