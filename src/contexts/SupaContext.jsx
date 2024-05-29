@@ -146,6 +146,19 @@ export const SupaProvider = ({ children }) => {
     }
   };
   
+  const commentLength = async () => {
+    try {
+      const { data, error } = await supabase.from('comments').select('*');
+      if (error) {
+        throw new Error(error.message);
+      }
+      return data;
+    } catch (error) {
+      console.error("Error fetching votes:", error.message); // Log the error
+      return []; // Return an empty array or handle the error appropriately
+    }
+  };
+
   return (
     <SupaContext.Provider
       value={{
@@ -158,7 +171,8 @@ export const SupaProvider = ({ children }) => {
         userID,
         upvoteIdea,
         postReply,
-        voteLength
+        voteLength,
+        commentLength
       }}
     >
       {children}
