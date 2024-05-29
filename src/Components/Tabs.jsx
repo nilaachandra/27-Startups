@@ -4,7 +4,8 @@ import { GiAchievement } from "react-icons/gi";
 import { Link, useLocation } from "react-router-dom";
 import Hotposts from "./Hotposts";
 import Newposts from "./Newposts";
-import Topposts from "./Topposts";
+import { SiGoogleanalytics } from "react-icons/si";
+import OpenAnalytics from "./OpenAnalytics";
 
 const Tabs = () => {
   const location = useLocation();
@@ -12,7 +13,7 @@ const Tabs = () => {
 
   useEffect(() => {
     const hash = location.hash.substring(1); // Remove the '#' from the hash
-    if (["hot", "new", "top"].includes(hash)) {
+    if (["hot", "new", "analytics"].includes(hash)) {
       setActiveTab(hash);
     }
   }, [location.hash]);
@@ -47,22 +48,23 @@ const Tabs = () => {
           New
         </Link>
         <Link
-          to="#top"
+          to="#analytics"
           onClick={() => {
-            setActiveTab("top");
+            setActiveTab("analytics");
             window.scrollTo(0,0);
           }}
           className={`flex items-center gap-1 font-bold headfont-bold lg:text-xl text-base py-2 px-4 ${
-            activeTab === "top" ? "bg-slate-300 rounded-md" : "opacity-50"
+            activeTab === "analytics" ? "bg-slate-300 rounded-md" : "opacity-50"
           }`}
         >
-          <GiAchievement />
-          Top
+          <SiGoogleanalytics />
+          Analytics
         </Link>
       </div>
       {activeTab === "hot" && <Hotposts />}
       {activeTab === "new" && <Newposts />}
-      {activeTab === "top" && <Topposts />}
+      {activeTab === "analytics" && <OpenAnalytics />}
+      
     </div>
   );
 };

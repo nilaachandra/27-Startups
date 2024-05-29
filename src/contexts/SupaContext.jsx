@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "../supabase/supabaseClient";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { v4 as uuidv4 } from "uuid";
+import { data } from "autoprefixer";
 
 const SupaContext = createContext();
 
@@ -19,7 +20,7 @@ export const SupaProvider = ({ children }) => {
     setUserID(storedUserID);
   }, []);
 
-  //add a post
+  // Add a post
   const postIdea = async (ideaData) => {
     setLoading(true);
     try {
@@ -29,10 +30,12 @@ export const SupaProvider = ({ children }) => {
       }
     } catch (error) {
       setError(error.message);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
-// fetch post
+
+  // Fetch posts
   const fetchPost = async () => {
     const { data, error } = await supabase
       .from("ideas")
@@ -42,9 +45,12 @@ export const SupaProvider = ({ children }) => {
         comments(*)
       `)
       .order("created_at", { ascending: false });
+    
     if (error) throw new Error(error.message);
+    
     return data.map(idea => ({
       ...idea,
+      engagements: idea.comments.length + idea.votes.length,
       upvotes_count: idea.votes.length,
       hasUpvoted: idea.votes.some(vote => vote.userID === userID),
     }));
@@ -53,13 +59,12 @@ export const SupaProvider = ({ children }) => {
   const { data: newPosts, isLoading, refetch } = useQuery({
     queryKey: ["data", userID],
     queryFn: fetchPost,
-    enabled: !!userID
+    enabled: !!userID,
   });
 
   const queryClient = useQueryClient();
 
-
-  //upvoting an idea
+  // Upvoting an idea
   const handleUpvote = async (id) => {
     try {
       const { data: existingUpvotes } = await supabase
@@ -77,7 +82,7 @@ export const SupaProvider = ({ children }) => {
       } else {
         await supabase
           .from('votes')
-          .insert({ idea_id: id, userID: userID });
+          .insert({ idea_id: id, userID });
       }
     } catch (error) {
       throw new Error(error.message);
@@ -114,8 +119,7 @@ export const SupaProvider = ({ children }) => {
 
   const upvoteIdea = (id) => mutation.mutate(id);
 
-
-  //add a reply to each post
+  // Add a reply to each post
   const postReply = async (ideaReply) => {
     setLoading(true);
     try {
@@ -125,11 +129,23 @@ export const SupaProvider = ({ children }) => {
       }
     } catch (error) {
       setError(error.message);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
-
-
+  const voteLength = async () => {
+    try {
+      const { data, error } = await supabase.from('votes').select('*');
+      if (error) {
+        throw new Error(error.message);
+      }
+      return data;
+    } catch (error) {
+      console.error("Error fetching votes:", error.message); // Log the error
+      return []; // Return an empty array or handle the error appropriately
+    }
+  };
+  
   return (
     <SupaContext.Provider
       value={{
@@ -141,7 +157,8 @@ export const SupaProvider = ({ children }) => {
         refetch,
         userID,
         upvoteIdea,
-        postReply
+        postReply,
+        voteLength
       }}
     >
       {children}

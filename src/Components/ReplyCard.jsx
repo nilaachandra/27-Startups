@@ -13,10 +13,10 @@ const ReplyCard = ({onClick, key,username,reply,socialUsername, twitter, github,
 
 
   return (
-    <div key={key} className='flex-col cursor-pointer py-2 px-3 shadow-xl headfont-regular rounded-xl bg-white flex justify-between transition-all duration-300'>
+    <div key={key} className='flex-col leading-tight cursor-pointer py-2 px-3 shadow-xl headfont-regular rounded-xl bg-white flex justify-between transition-all duration-300'>
         
-        <div className="func flex gap-2 text-sm lg:gap-1.5 items-center">
-            Replied By
+        <div className="func flex gap-1 text-xs lg:gap-0 items-center">
+            Replied By :
             {twitter && (
               <a
                 href={`http://x.com/${socialUsername}`}
@@ -63,7 +63,7 @@ const ReplyCard = ({onClick, key,username,reply,socialUsername, twitter, github,
             <p className='text-base my-1'>{reply}</p>
 
             <div className="flex gap-1 items-center text-sm">
-            <p>Posted {formatDate(createdAt)} </p>
+            <p className='text-xs'>Posted {formatDate(createdAt)} </p>
           </div>
     </div>
   )
