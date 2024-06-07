@@ -46,7 +46,7 @@ const OpenAnalytics = () => {
             Total Replies : <span>{totalComment}💬</span>
           </h1>
         </div>
-      <div className="flex flex-col gap-2">
+      <div className="flex w-full mt-1 flex-col gap-2">
         <h1 className="font-bold my-2 ">Top 3 Ideas💡: </h1>
         {isLoading ? (
           <Loader type="spin" color="#09a129" height={50} width={50} />
