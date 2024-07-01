@@ -49,7 +49,7 @@ const Hero = () => {
         <span className="group font-bold">
           Unicorn
           <span className="inline-block group-hover:scale-150 transform transition-transform duration-200">
-            🦄
+            🦄 
           </span>
         </span>{" "}
         &{" "}
